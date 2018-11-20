@@ -1,0 +1,102 @@
+<html>
+<head>
+ <link rel="stylesheet" href="https://developer.paypal.com/webapps/developer/docs/css/pp.css">
+
+</head>
+<body>
+<div class="span10">
+<div class="mainContainer">
+<p>The code below is for educational purposes only and should not be used on live site. </p>
+
+<p>Please enter the <a href="https://developer.paypal.com/webapps/developer/docs/classic/api/apiCredentials/">API credentials</a> generated on your PayPal account in the all API fileds (API Username, API Password and API Signature).</p>
+<hr>
+<h3>SetExpressCheckout</h3>
+
+<form action="https://api-3t.sandbox.paypal.com/nvp" method="post" target="paypal">
+<table>
+<tr><td>API Username: <td><input type="text" name="USER" value="">
+<tr><td>API Password: <td><input type="text" name="PWD" value="">
+<tr><td>API Signature: <td><input type="text" name="SIGNATURE" value="">
+<tr><td>VERSION: <td><input type="text" name="VERSION" value="124.0" readonly="readonly">
+<tr><td>METHOD: <td><input type="text" name="METHOD" value="SetExpressCheckout" readonly="readonly">
+<tr><td>RETURNURL: <td><input type="text" name="RETURNURL" value="https://www.paypal.com">
+<tr><td>CANCELURL: <td><input type="text" name="CANCELURL" value="https://www.paypal.com"">
+<tr><td>AMT: <td><input type="text" name="PAYMENTREQUEST_0_AMT" value="0.01">
+<tr><td><td><input type="submit" value="SetExpressCheckout API request">
+</table>
+</form>
+
+<p>Run the SetExpressCheckout request and from the text display in new window copy the value of <code>TOKEN</code> up to the '&'<br>
+sample:
+<br>
+<pre code>
+<strong>TOKEN=EC%2d96Y57383N7615650K</strong><code>&TIMESTAMP=2010%2d01%2d19T14%3a25%3a14Z&CORRELATIONID=550788e416b7d&
+ACK=Success&VERSION=60%2e0&BUILD=1152253&CURRENCYCODE=USD&AMT=0%2e01&SHIPPINGAMT=0%2e00&HANDLINGAMT=0%2e00&
+TAXAMT=0%2e00&INSURANCEAMT=0%2e00&INSURANCEOPTIONOFFERED=false&SHIPPINGCALCULATIONMODE=Callback&
+INSURANCEOPTIONSELECTED=false&SHIPPINGOPTIONISDEFAULT=false
+</code>
+</pre code>
+<br>
+
+then please replace the '<code>%2d</code>' with '-'<br><br>
+
+
+<code>EC%2d96Y57383N7615650K</code> -> <code>EC-96Y57383N7615650K</code><br></p>
+
+<p>Open new window and enter in the address bar: <code>https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=EC-96Y57383N7615650K</code><br>where the token will be the value copied from the text string</p>
+<p>Login as usual to your PayPal account and accept the payment.</p>
+<hr>
+<p>Now you can run the GetExpressCheckoutDetails API request</p>
+<p>Just paste the same TOKEN value in the TOKEN field and click "GetExpressCheckoutDetails API request" button</p>
+
+
+<h3>GetExpressCheckoutDetails</h3>
+<form action="https://api-3t.sandbox.paypal.com/nvp" method="post" target="paypal">
+<table>
+<tr><td>API Username: <td><input type="text" name="USER" value="">
+<tr><td>API Password: <td><input type="text" name="PWD" value="">
+<tr><td>API Signature: <td><input type="text" name="SIGNATURE" value="">
+<tr><td>VERSION: <td><input type="text" name="VERSION" value="124.0" readonly="readonly">
+<tr><td>METHOD: <td><input type="text" name="METHOD" value="GetExpressCheckoutDetails" readonly="readonly">
+<tr><td>TOKEN: <td><input type="text" name="TOKEN" value="">
+<tr><td><td><input type="submit" value="GetExpressCheckoutDetails API request">
+</table>
+</form>
+
+<p>The text displayed in the new window would like this: <br><br>
+
+<pre code>
+<code>TOKEN=EC%2d58555922H0253301N&CHECKOUTSTATUS=PaymentActionNotInitiated&TIMESTAMP=2010%2d01%2d19T14%3a45%3a01Z&CORRELATIONID=98c309d4caf59&ACK=Success&VERSION=60%2e0&BUILD=1152253&EMAIL=newemail%40example%2ecom&
+</code><strong>PAYERID=RMSHS9WA54WZ6</strong><code>&PAYERSTATUS=verified&BUSINESS=MR1%2dSmiehu%20Business&FIRSTNAME=Test&LASTNAME=Lastest&COUNTRYCODE=US&SHIPTONAME=MR1%2dSmiehu%20Business&SHIPTOSTREET=1%20Main%20St&SHIPTOCITY=San%20Jose&SHIPTOSTATE=CA&SHIPTOZIP=95131&SHIPTOCOUNTRYCODE=US&SHIPTOCOUNTRYNAME=United%20States&ADDRESSSTATUS=Confirmed&CURRENCYCODE=USD&AMT=0%2e01&SHIPPINGAMT=0%2e00&HANDLINGAMT=0%2e00&TAXAMT=0%2e00&INSURANCEAMT=0%2e00&INSURANCEOPTIONOFFERED=false&SHIPPINGCALCULATIONMODE=Callback&INSURANCEOPTIONSELECTED=false&SHIPPINGOPTIONISDEFAULT=false
+</code>
+</pre code>
+<br>
+From this response you will need to copy the value of <code>PAYERID</code></p>
+<hr>
+<p>Now you can test the last DoExpressCheckoutPayment API request. You just need to paste the <code>TOKEN</code> and <code>PAYERID</code> values and click DoExpressCheckoutPayment API request</p>
+
+
+<h3>DoExpressCheckoutPayment</h3>
+<form action="https://api-3t.sandbox.paypal.com/nvp" method="post" target="paypal">
+<table>
+<tr><td>API Username: <td><input type="text" name="USER" value="">
+<tr><td>API Password: <td><input type="text" name="PWD" value="">
+<tr><td>API Signature: <td><input type="text" name="SIGNATURE" value="">
+<tr><td>VERSION: <td><input type="text" name="VERSION" value="124.0" readonly="readonly">
+<tr><td>METHOD: <td><input type="text" name="METHOD" value="DoExpressCheckoutPayment" readonly="readonly">
+<tr><td>TOKEN: <td><input type="text" name="TOKEN" value="">
+<tr><td>PAYMENTACTION: <td><input type="text" name="PAYMENTREQUEST_0_PAYMENTACTION" value="Sale">
+<tr><td>PAYERID: <td><input type="text" name="PAYERID" value="">
+<tr><td>AMT: <td><input type="text" name="PAYMENTREQUEST_0_AMT" value="0.01">
+<tr><td><td><input type="submit" value="DoExpressCheckoutPayment API request">
+</table>
+</form>
+
+<p>For successful transaction you should get:<br><br>
+<pre code>
+<code>TOKEN=EC%2d58555922H0253301N&SUCCESSPAGEREDIRECTREQUESTED=false&TIMESTAMP=2010%2d01%2d19T15%3a00%3a46Z&CORRELATIONID=8d1e13deafb0b&</code><strong>ACK=Success</strong><code>&VERSION=60%2e0&BUILD=1152253&TRANSACTIONID=59207968DG384182U&TRANSACTIONTYPE=expresscheckout&PAYMENTTYPE=instant&ORDERTIME=2010%2d01%2d19T15%3a00%3a45Z&AMT=0%2e01&FEEAMT=0%2e01&TAXAMT=0%2e00&CURRENCYCODE=USD&PAYMENTSTATUS=Completed&PENDINGREASON=None&REASONCODE=None&PROTECTIONELIGIBILITY=Eligible</code>
+</pre code>
+</div>
+</div>
+</body>
+</html>
